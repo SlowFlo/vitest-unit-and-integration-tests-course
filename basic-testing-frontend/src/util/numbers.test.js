@@ -1,4 +1,5 @@
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
+
 import { cleanNumbers, transformToNumber } from "./numbers";
 
 describe("transformToNumber()", () => {
@@ -36,7 +37,9 @@ describe("cleanNumbers()", () => {
 
     const cleanedNumbers = cleanNumbers(numberValues);
 
-    expect(cleanedNumbers[0]).toBeTypeOf("number");
+    // expect(cleanedNumbers[0]).toBeTypeOf("number");
+    // expect(cleanedNumbers).toBe([1, 2]); -> False, not the EXACT same object in memory
+    expect(cleanedNumbers).toEqual([1, 2]);
   });
 
   it("should throw an error if an array with at least one empty string is provided", () => {
