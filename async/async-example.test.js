@@ -18,10 +18,10 @@ it("should generate a token value", async () => {
   expect(token).toBeDefined();
 });
 
-it("should generate a token value", () => {
+it("should generate a token value", async () => {
   const testUserEmail = "test@test.com";
 
-  return expect(generateTokenPromise(testUserEmail)).resolves.toBeDefined();
+  await expect(generateTokenPromise(testUserEmail)).resolves.toBeDefined();
 });
 
 it("should generate a token value", async () => {
