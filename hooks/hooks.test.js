@@ -1,4 +1,4 @@
-import { it, expect, beforeAll, beforeEach, afterEach, afterAll } from "vitest";
+import { afterAll, afterEach, beforeAll, beforeEach, expect, it } from "vitest";
 
 import { User } from "./hooks";
 
@@ -21,30 +21,40 @@ afterAll(() => {
   console.log("afterAll()");
 });
 
-it("should update the email", () => {
+// if we use concurrent() on describe each test will be launched as
+// if called with concurrent()
+// describe.concurrent();
+
+it.concurrent("should update the email", () => {
   const newTestEmail = "test2@test.com";
+  // if we use the global user the concurrency may update it
+  // between the update and the expect
+  const user2 = new User(testEmail);
 
-  user.updateEmail(newTestEmail);
+  user2.updateEmail(newTestEmail);
 
-  expect(user.email).toBe(newTestEmail);
+  expect(user2.email).toBe(newTestEmail);
 });
 
-it("should have an email property", () => {
+it.concurrent("should have an email property", () => {
   expect(user).toHaveProperty("email");
 });
 
-it("should store the provided email value", () => {
+it.concurrent("should store the provided email value", () => {
   expect(user.email).toBe(testEmail);
 });
 
-it("should clear the email", () => {
+it.concurrent("should clear the email", () => {
   user.clearEmail();
 
   expect(user.email).toBe("");
 });
 
-it("should still have an email property after clearing the email", () => {
-  user.clearEmail();
+it.concurrent(
+  "should still have an email property after clearing the email",
+  () => {
+    user.clearEmail();
 
-  expect(user).toHaveProperty("email");
-});
+    expect(user).toHaveProperty("email");
+  },
+);
